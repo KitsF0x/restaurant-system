@@ -55,8 +55,10 @@ public class OrderHttpRoutesTest {
 
     @Test
     public void WenCalled_GetOrder_ShouldReturnStatus200_WhenOrderWasFound() throws Exception {
-        // Act
+        // Arrange
         testRestTemplate.postForEntity("/orders", new Order(0, "Note"), Order.class);
+
+        // Act
         ResponseEntity<Order> response = testRestTemplate.getForEntity("/orders/1", Order.class);
 
         // Assert
