@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import io.github.kitsf0x.restaurant_system.model.Order;
+import io.github.kitsf0x.restaurant_system.utils.TestRestTemplateDatabasePostSeeder;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -22,6 +23,8 @@ public class OrderHttpRoutesTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+    private TestRestTemplateDatabasePostSeeder<Order> seeder = new TestRestTemplateDatabasePostSeeder<>();
 
     @Test
     public void WhenCalledPost_CreateOrder_ShouldReturnStatus200() throws Exception {
@@ -56,7 +59,7 @@ public class OrderHttpRoutesTest {
     @Test
     public void WenCalledGet_GetOrderById_ShouldReturnStatus200_WhenOrderWasFound() throws Exception {
         // Arrange
-        testRestTemplate.postForEntity("/orders", new Order(0, "Note"), Order.class);
+        seeder.seed(testRestTemplate, "/orders", new Order(0, "Note"));
 
         // Act
         ResponseEntity<Order> response = testRestTemplate.getForEntity("/orders/1", Order.class);
