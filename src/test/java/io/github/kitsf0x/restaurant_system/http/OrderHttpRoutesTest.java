@@ -22,14 +22,14 @@ public class OrderHttpRoutesTest {
     private TestRestTemplate testRestTemplate;
 
     @Test
-    public void whenCalled_PostRoute_shouldReturnStatus200() throws Exception {
+    public void WhenCalled_PostOrder_ShouldReturnStatus200() throws Exception {
         ResponseEntity<Order> response = testRestTemplate.postForEntity("/orders", new Order(), Order.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @SuppressWarnings("null")
     @Test
-    public void whenCalled_PostRoute_shouldReturnCreatedObject() throws Exception {
+    public void WenCalled_PostOrder_ShouldReturnCreatedObject() throws Exception {
         // Arrange
         String orderNote = "Note of the order";
         Order order = Order.builder().note(orderNote).build();
