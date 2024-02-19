@@ -13,7 +13,7 @@ import io.github.kitsf0x.restaurant_system.model.Order;
 import io.github.kitsf0x.restaurant_system.service.OrderService;
 
 @ExtendWith(MockitoExtension.class)
-public class ControllerTest {
+public class OrderControllerTest {
 
     @Mock
     private OrderService orderService;
