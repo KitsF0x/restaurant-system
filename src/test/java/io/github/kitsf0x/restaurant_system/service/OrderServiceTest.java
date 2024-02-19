@@ -1,9 +1,12 @@
 package io.github.kitsf0x.restaurant_system.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,5 +48,26 @@ public class OrderServiceTest {
 
         // Act
         assertThrows(OrderNotFoundException.class, () -> orderService.createOrder(null));
+    }
+
+    @Test
+    public void WhenCalled_GetById_ShouldCallFindByIdInRepository() {
+        // Arrange
+        when(orderRepository.findById(anyInt())).thenReturn(Optional.of(new Order()));
+
+        // Act
+        orderService.getById(1);
+
+        // Assert
+        verify(orderRepository, times(1)).findById(1);
+    }
+
+    @Test
+    public void WhenCalled_GetById_ShouldThrowOrderNotFoundException_WhenWithGivenIdWasNotFound() {
+        // Arrange
+        when(orderRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        // Act
+        assertThrows(OrderNotFoundException.class, () -> orderService.getById(1));
     }
 }

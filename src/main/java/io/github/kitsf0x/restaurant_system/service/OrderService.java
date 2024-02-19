@@ -19,4 +19,10 @@ public class OrderService {
         }
         return orderRepository.save(order);
     }
+
+    public Order getById(int id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException());
+    }
+
 }

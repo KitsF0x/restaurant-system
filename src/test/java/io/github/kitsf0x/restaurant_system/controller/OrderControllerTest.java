@@ -1,5 +1,6 @@
 package io.github.kitsf0x.restaurant_system.controller;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -31,5 +32,14 @@ public class OrderControllerTest {
 
         // Assert
         verify(orderService, times(1)).createOrder(order);
+    }
+
+    @Test
+    public void WhenCalled_GetOrderById_ShouldCallGetOrderByIdMethodInService() {
+        // Act
+        orderController.getOrderById(anyInt());
+
+        // Assert
+        verify(orderService, times(1)).getById(anyInt());
     }
 }

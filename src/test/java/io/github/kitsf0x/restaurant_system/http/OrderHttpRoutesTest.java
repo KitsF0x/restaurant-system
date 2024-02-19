@@ -11,11 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 
 import io.github.kitsf0x.restaurant_system.model.Order;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class OrderHttpRoutesTest {
 
     @Autowired
@@ -40,5 +42,24 @@ public class OrderHttpRoutesTest {
         // Assert
         assertNotNull(response.getBody());
         assertEquals(orderNote, response.getBody().getNote());
+    }
+
+    @Test
+    public void WenCalled_GetOrder_ShouldReturnStatus404_WhenOrderWasNotFound() throws Exception {
+        // Act
+        ResponseEntity<Order> response = testRestTemplate.getForEntity("/orders/1", Order.class);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void WenCalled_GetOrder_ShouldReturnStatus200_WhenOrderWasFound() throws Exception {
+        // Act
+        testRestTemplate.postForEntity("/orders", new Order(0, "Note"), Order.class);
+        ResponseEntity<Order> response = testRestTemplate.getForEntity("/orders/1", Order.class);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }
