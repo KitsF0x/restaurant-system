@@ -62,4 +62,20 @@ public class OrderHttpRoutesTest {
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
+    @SuppressWarnings("null")
+    @Test
+    public void WenCalled_GetOrder_ShouldReturnCreatedObject_IfExists() throws Exception {
+        // Arrange
+        String orderNote = "Note of the order";
+        Order order = Order.builder().note(orderNote).build();
+        testRestTemplate.postForEntity("/orders", order, Order.class);
+
+        // Act
+        ResponseEntity<Order> response = testRestTemplate.getForEntity("/orders/1", Order.class);
+
+        // Assert
+        assertNotNull(response.getBody());
+        assertEquals(orderNote, response.getBody().getNote());
+    }
 }
