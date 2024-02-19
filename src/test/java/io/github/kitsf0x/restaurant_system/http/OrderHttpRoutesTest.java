@@ -24,14 +24,14 @@ public class OrderHttpRoutesTest {
     private TestRestTemplate testRestTemplate;
 
     @Test
-    public void WhenCalled_PostOrder_ShouldReturnStatus200() throws Exception {
+    public void WhenCalledPost_CreateOrder_ShouldReturnStatus200() throws Exception {
         ResponseEntity<Order> response = testRestTemplate.postForEntity("/orders", new Order(), Order.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @SuppressWarnings("null")
     @Test
-    public void WenCalled_PostOrder_ShouldReturnCreatedObject() throws Exception {
+    public void WenCalledPost_CreateOrder_ShouldReturnCreatedObject() throws Exception {
         // Arrange
         String orderNote = "Note of the order";
         Order order = Order.builder().note(orderNote).build();
@@ -45,7 +45,7 @@ public class OrderHttpRoutesTest {
     }
 
     @Test
-    public void WenCalled_GetOrder_ShouldReturnStatus404_WhenOrderWasNotFound() throws Exception {
+    public void WenCalledGet_GetOrderById_ShouldReturnStatus404_WhenOrderWasNotFound() throws Exception {
         // Act
         ResponseEntity<Order> response = testRestTemplate.getForEntity("/orders/1", Order.class);
 
@@ -54,7 +54,7 @@ public class OrderHttpRoutesTest {
     }
 
     @Test
-    public void WenCalled_GetOrder_ShouldReturnStatus200_WhenOrderWasFound() throws Exception {
+    public void WenCalledGet_GetOrderById_ShouldReturnStatus200_WhenOrderWasFound() throws Exception {
         // Arrange
         testRestTemplate.postForEntity("/orders", new Order(0, "Note"), Order.class);
 
@@ -67,7 +67,7 @@ public class OrderHttpRoutesTest {
 
     @SuppressWarnings("null")
     @Test
-    public void WenCalled_GetOrder_ShouldReturnCreatedObject_IfExists() throws Exception {
+    public void WenCalledGet_GetOrderById_ShouldReturnCreatedObject_IfExists() throws Exception {
         // Arrange
         String orderNote = "Note of the order";
         Order order = Order.builder().note(orderNote).build();
